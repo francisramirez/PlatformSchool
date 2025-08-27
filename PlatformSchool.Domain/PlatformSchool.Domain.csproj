@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Base\" />
+    <Compile Remove="Models\DepartmentUpdateModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Models\Department\DepartmentUpdateModel.cs" />
   </ItemGroup>
 
 </Project>
