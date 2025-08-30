@@ -237,7 +237,7 @@ namespace PlatformSchool.Persistence.Repositories
                     using (var command = new SqlCommand("[dbo].[ActualizarDepartamento]", connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@@DepartmentId", model.DepartmentId);
+                        command.Parameters.AddWithValue("@DepartmentId", model.DepartmentId);
                         command.Parameters.AddWithValue("@Name", model.Name);
                         command.Parameters.AddWithValue("@Budget", model.Budget);
                         command.Parameters.AddWithValue("@StartDate", model.StartDate);
@@ -260,15 +260,16 @@ namespace PlatformSchool.Persistence.Repositories
                         if (rowsAffected > 0)
                         {
 
-                            _logger.LogInformation($"Department created successfully: {model.Name}. Result: {resultMessage}");
+                            _logger.LogInformation($"Department updated successfully: {model.Name}. Result: {resultMessage}");
                             var createdDepartment = new DepartmentUpdateModel
                             {
                                 Name = model.Name,
                                 Budget = model.Budget,
                                 StartDate = model.StartDate,
-                                Administrator = model.Administrator
+                                Administrator = model.Administrator, 
+                                DepartmentId = model.DepartmentId, 
                             };
-                            result = OperationResult<DepartmentUpdateModel>.Success("Department created successfully.", createdDepartment);
+                            result = OperationResult<DepartmentUpdateModel>.Success("Department updated successfully.", model);
                         }
                         else
                         {

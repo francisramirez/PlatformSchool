@@ -1,0 +1,6 @@
+@PlatformSchool.Api_HostAddress = http://localhost:5240
+
+GET {{PlatformSchool.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
