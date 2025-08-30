@@ -140,11 +140,13 @@ namespace PlatformSchool.Persistence.Repositories
                                 var department = new DepartmentGetModel
                                 {
 
-                                    DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
+                                    DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentID")),
                                     Name = reader.GetString(reader.GetOrdinal("Name")),
                                     Budget = reader.GetDecimal(reader.GetOrdinal("Budget")),
                                     StartDate = reader.GetString("StartDate"),
-                                    Administrator = reader.IsDBNull(reader.GetOrdinal("Administrator")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Administrator"))
+                                    Administrator = reader.IsDBNull(reader.GetOrdinal("Administrator")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Administrator")),
+                                    CreationDate = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
+                                    CreationDateDisplay = reader.GetString(reader.GetOrdinal("CreationDateDisplay")),
                                 };
                                 departments.Add(department);
                             }
@@ -180,9 +182,10 @@ namespace PlatformSchool.Persistence.Repositories
             {
                 using (var connetction = new SqlConnection(_connectionString))
                 {
-                    using (var command = new SqlCommand("[dbo].[ObtenerDepartamentos]", connetction))
+                    using (var command = new SqlCommand("[dbo].[ObtenerDepartamentoPorId]", connetction))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@p_DepartmentId", id);
                         await connetction.OpenAsync();
                         using (var reader = await command.ExecuteReaderAsync())
                         {
@@ -198,11 +201,12 @@ namespace PlatformSchool.Persistence.Repositories
                                     departmentFound.Budget = reader.GetDecimal(reader.GetOrdinal("Budget"));
                                     departmentFound.StartDate = reader.GetString(reader.GetOrdinal("StartDate"));
                                     departmentFound.Administrator = reader.IsDBNull(reader.GetOrdinal("Administrator")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Administrator"));
-
+                                    departmentFound.CreationDate = reader.GetDateTime(reader.GetOrdinal("CreationDate"));
+                                    departmentFound.CreationDateDisplay = reader.GetString(reader.GetOrdinal("CreationDateDisplay"));
 
                                 }
 
-                                result = OperationResult<DepartmentGetModel>.Success("Departments retrieved successfully.",departmentFound);
+                                result = OperationResult<DepartmentGetModel>.Success("Departments retrieved successfully.", departmentFound);
 
                             }
                             else
@@ -266,8 +270,8 @@ namespace PlatformSchool.Persistence.Repositories
                                 Name = model.Name,
                                 Budget = model.Budget,
                                 StartDate = model.StartDate,
-                                Administrator = model.Administrator, 
-                                DepartmentId = model.DepartmentId, 
+                                Administrator = model.Administrator,
+                                DepartmentId = model.DepartmentId,
                             };
                             result = OperationResult<DepartmentUpdateModel>.Success("Department updated successfully.", model);
                         }
