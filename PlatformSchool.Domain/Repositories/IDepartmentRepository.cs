@@ -9,6 +9,8 @@ namespace PlatformSchool.Domain.Repositories
     {
         Task<OperationResult<List<DepartmentGetModel>>> GetAllDepartmentsAsync();
         Task<OperationResult<DepartmentGetModel>> GetDepartmentByIdAsync(int id);
-        Task<OperationResult<DepartmentGetModel>> CreateDepartmentAsync(DepartmentGetModel model);  
+        Task<OperationResult<DepartmentUpdateModel>> CreateDepartmentAsync(DepartmentCreateModel model);  
+        Task<OperationResult<DepartmentUpdateModel>> UpdateDepartmentAsync(DepartmentUpdateModel model);
+       
     }
 }

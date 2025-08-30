@@ -13,5 +13,7 @@ namespace PlatformSchool.Domain.Models.Department
         public string CreationDateDisplay { get; set; }
         public DateTime CreationDate { get; set; }
 
+        public int? Administrator { get; set; }
+
     }
 }
